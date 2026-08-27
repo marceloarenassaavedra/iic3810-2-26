@@ -1,0 +1,140 @@
+\documentclass[10pt]{article}
+\usepackage{logo}
+\usepackage{fullpage}
+\usepackage[latin1]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{epsfig}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{multicol}
+\usepackage{color}
+
+\newcommand{\cyan}[1]{\textCyan #1\textBlack}
+\newcommand{\red}[1]{\textRed #1\textBlack}
+\newcommand{\green}[1]{\textGreen #1\textBlack}
+\newcommand{\blue}[1]{\textBlue #1\textBlack}
+\newcommand{\black}[1]{\textBlack #1\textBlack}
+\newcommand{\magenta}[1]{\textMagenta #1\textBlack}
+\newcommand{\brown}[1]{\textBrown #1\textBlack}
+\newcommand{\vs}[1]{\vspace{#1mm}}
+\newcommand{\ignore}{}
+\newcommand{\ri}[1]{\text{\red{#1}}}
+\newcommand{\hs}{\hat\sigma}
+\newcommand{\modelos}{{\it modelos}}
+\newcommand{\B}{{\tt B}}
+\newcommand{\nspace}{\text{NSPACE}}
+\newcommand{\logspace}{\text{LOGSPACE}}
+\newcommand{\nlogspace}{\text{NLOGSPACE}}
+\newcommand{\npspace}{\text{NPSPACE}}
+\newcommand{\pspace}{\text{PSPACE}}
+\newcommand{\ph}{\text{PH}}
+\newcommand{\expspace}{\text{EXPSPACE}}
+\newcommand{\nexpspace}{\text{NEXPSPACE}}
+\newcommand{\dspace}{\text{DSPACE}}
+\newcommand{\espacio}{{\it espacio}}
+\newcommand{\tiempo}{{\it tiempo}}
+\newcommand{\ptime}{\text{PTIME}}
+\newcommand{\dtime}{\text{DTIME}}
+\newcommand{\exptime}{\text{EXPTIME}}
+\newcommand{\nexptime}{\text{NEXPTIME}}
+\newcommand{\CC}{{\cal C}}
+\newcommand{\sat}{\text{SAT}}
+\newcommand{\tcnfu}{\text{3-CNF-SAT-UNSAT}}
+\newcommand{\usat}{\text{unique-SAT}}
+\newcommand{\np}{\text{NP}}
+\newcommand{\ntime}{\text{NTIME}}
+\newcommand{\cnf}{\text{CNF-SAT}}
+\newcommand{\tcnf}{\text{3-CNF-SAT}}
+\newcommand{\dcnf}{\text{2-CNF-SAT}}
+\newcommand{\horn}{\text{HORN-SAT}}
+\newcommand{\nhorn}{\text{NEG-HORN-SAT}}
+\newcommand{\co}{\text{co-}}
+\newcommand{\rp}{\leq^\text{\it p}_\text{\it m}}
+\newcommand{\tur}{\leq^\text{\it p}_\text{\it T}}
+\newcommand{\reach}{\text{CAMINO}}
+\newcommand{\pe}{\text{PROG-ENT}}
+\newcommand{\pl}{\text{PROG-LIN}}
+\newcommand{\cor}{\text{CONT-REG}}
+\newcommand{\er}{\text{EQUIV-REG}}
+\newcommand{\qbf}{\text{QBF}}
+\newcommand{\shp}{\text{Succinct-HP}}
+\newcommand{\hp}{\text{HP}}
+\newcommand{\cdp}{\text{DP}}
+\newcommand{\clique}{\text{CLIQUE}}
+\newcommand{\eclique}{\text{exact-CLIQUE}}
+\newcommand{\costo}{\text{costo}}
+\newcommand{\tsp}{\text{TSP}}
+\newcommand{\tspu}{\text{unique-TSP}}
+\newcommand{\no}{\text{NO}}
+\newcommand{\yes}{\text{YES}}
+\newcommand{\br}{\text{CERTAIN-ANSWERS}}
+\newcommand{\dpc}{\text{DP}}
+
+\newcommand{\CROM}{\text{CROM}}
+\newcommand{\EVAL}{\text{EVAL}}
+\newcommand{\EQUIV}{\text{EQUIV}}
+
+\newcommand{\re}{\text{RE}}
+\newcommand{\dec}{\text{R}}
+\newcommand{\resp}[1]{{\text{\bf [Responsable: #1]}}}
+\usepackage{braket}
+
+\begin{document}
+
+
+\begin{tabular}{ccl}
+\begin{tabular}{c}
+\psfig{file=puclogo.eps}
+\end{tabular}
+&\ \ \ & 
+\begin{tabular}{l}
+PONTIFICIA UNIVERSIDAD CATÓLICA DE CHILE\\
+ESCUELA DE INGENIERÍA\\
+DEPARTAMENTO DE CIENCIA DE LA COMPUTACIÓN
+\end{tabular}
+\end{tabular}
+
+\vspace{1cm}
+
+\begin{center}
+  {
+\bf Tópicos Avanzados en Teoría de la Computación - IIC3810\\
+\bf Tarea 1\\
+\bf Fecha de entrega: jueves 10 de septiembre}
+\end{center}
+
+\vspace{1cm}
+
+\begin{enumerate}
+\item En la presentación sobre álgebra lineal y notación de Dirac se
+  da una demostración de lo siguiente: Si $H \in \mathbb C^{n \times
+    n}$ es una matriz hermitiana, entonces existe una matriz
+  unitaria $U \in \mathbb C^{n \times n}$ y una matriz diagonal real
+  $D \in \mathbb C^{n \times n}$ tal que $H = U D U^\dag$.
+  En esta pregunta usted va a generalizar esta demostración para el
+  caso de las matrices normales.
+
+  Una matriz $N \in \mathbb C^{n \times n}$ se dice normal si $N^\dag
+  N = N N^\dag$. Observe que toda matriz unitaria o hermitiana es
+  normal.  Extienda la demostración de la presentación para probar lo
+  siguiente: Si $N \in \mathbb C^{n \times n}$ es una matriz normal,
+  entonces existe una matriz unitaria $U \in \mathbb C^{n \times n}$ y
+  una matriz diagonal compleja $D \in \mathbb C^{n \times n}$ tal que
+  $N = U D U^\dag$.
+
+\item Demuestre que para toda matriz unitaria $U \in \mathbb C^{n \times n}$, existe una
+  matriz hermitiana $H \in \mathbb C^{n \times n}$ tal que $U = e^{iH}$.
+
+\item   Sean $m, n \geq 2$, y $\left\{\ket{u_i}\right\}_{i=1}^{m}$, $\left\{\ket{v_j}\right\}_{j=1}^{n}$ bases ortonormales de \(\mathbb C^m\) y \(\mathbb C^n\), respectivamente. Considere un estado no nulo
+\begin{align*}
+  \lvert\psi\rangle
+\ =\ 
+\sum_{i=1}^{m}\sum_{j=1}^{n}
+c_{ij}
+\lvert u_i\rangle\otimes\lvert v_j\rangle
+\end{align*}
+
+y su matriz de coeficientes $C=(c_{ij})\in\mathbb C^{m\times n}$. Demuestre que existen $\ket{x} \in \mathbb{C}^m$ y $\ket{y} \in \mathbb C^n$ tales que $\ket{\psi} = \ket{x} \otimes \ket{y}$ si y sólo si el rango de la matriz $C$ es 1.
+\end{enumerate}
+
+\end{document}
