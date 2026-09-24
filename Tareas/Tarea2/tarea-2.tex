@@ -1,0 +1,280 @@
+\documentclass[10pt]{article}
+\usepackage{logo}
+\usepackage{fullpage}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{epsfig}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{multicol}
+\usepackage{color}
+
+\newcommand{\cyan}[1]{\textCyan #1\textBlack}
+\newcommand{\red}[1]{\textRed #1\textBlack}
+\newcommand{\green}[1]{\textGreen #1\textBlack}
+\newcommand{\blue}[1]{\textBlue #1\textBlack}
+\newcommand{\black}[1]{\textBlack #1\textBlack}
+\newcommand{\magenta}[1]{\textMagenta #1\textBlack}
+\newcommand{\brown}[1]{\textBrown #1\textBlack}
+\newcommand{\vs}[1]{\vspace{#1mm}}
+\newcommand{\ignore}{}
+\newcommand{\ri}[1]{\text{\red{#1}}}
+\newcommand{\hs}{\hat\sigma}
+\newcommand{\modelos}{{\it modelos}}
+\newcommand{\B}{{\tt B}}
+\newcommand{\nspace}{\text{NSPACE}}
+\newcommand{\logspace}{\text{LOGSPACE}}
+\newcommand{\nlogspace}{\text{NLOGSPACE}}
+\newcommand{\npspace}{\text{NPSPACE}}
+\newcommand{\pspace}{\text{PSPACE}}
+\newcommand{\ph}{\text{PH}}
+\newcommand{\expspace}{\text{EXPSPACE}}
+\newcommand{\nexpspace}{\text{NEXPSPACE}}
+\newcommand{\dspace}{\text{DSPACE}}
+\newcommand{\espacio}{{\it espacio}}
+\newcommand{\tiempo}{{\it tiempo}}
+\newcommand{\ptime}{\text{PTIME}}
+\newcommand{\dtime}{\text{DTIME}}
+\newcommand{\exptime}{\text{EXPTIME}}
+\newcommand{\nexptime}{\text{NEXPTIME}}
+\newcommand{\CC}{{\cal C}}
+\newcommand{\sat}{\text{SAT}}
+\newcommand{\tcnfu}{\text{3-CNF-SAT-UNSAT}}
+\newcommand{\usat}{\text{unique-SAT}}
+\newcommand{\np}{\text{NP}}
+\newcommand{\ntime}{\text{NTIME}}
+\newcommand{\cnf}{\text{CNF-SAT}}
+\newcommand{\tcnf}{\text{3-CNF-SAT}}
+\newcommand{\dcnf}{\text{2-CNF-SAT}}
+\newcommand{\horn}{\text{HORN-SAT}}
+\newcommand{\nhorn}{\text{NEG-HORN-SAT}}
+\newcommand{\co}{\text{co-}}
+\newcommand{\rp}{\leq^\text{\it p}_\text{\it m}}
+\newcommand{\tur}{\leq^\text{\it p}_\text{\it T}}
+\newcommand{\reach}{\text{CAMINO}}
+\newcommand{\pe}{\text{PROG-ENT}}
+\newcommand{\pl}{\text{PROG-LIN}}
+\newcommand{\cor}{\text{CONT-REG}}
+\newcommand{\er}{\text{EQUIV-REG}}
+\newcommand{\qbf}{\text{QBF}}
+\newcommand{\shp}{\text{Succinct-HP}}
+\newcommand{\hp}{\text{HP}}
+\newcommand{\cdp}{\text{DP}}
+\newcommand{\clique}{\text{CLIQUE}}
+\newcommand{\eclique}{\text{exact-CLIQUE}}
+\newcommand{\costo}{\text{costo}}
+\newcommand{\tsp}{\text{TSP}}
+\newcommand{\tspu}{\text{unique-TSP}}
+\newcommand{\no}{\text{NO}}
+\newcommand{\yes}{\text{YES}}
+\newcommand{\br}{\text{CERTAIN-ANSWERS}}
+\newcommand{\dpc}{\text{DP}}
+
+\newcommand{\CROM}{\text{CROM}}
+\newcommand{\EVAL}{\text{EVAL}}
+\newcommand{\EQUIV}{\text{EQUIV}}
+
+\newcommand{\re}{\text{RE}}
+\newcommand{\dec}{\text{R}}
+\newcommand{\resp}[1]{{\text{\bf [Responsable: #1]}}}
+\usepackage{braket}
+\usepackage{pythonhighlight}
+% pythonhighlight activa \UseRawInputEncoding; restauramos UTF-8 para el resto del documento.
+\inputencoding{utf8}
+% babel-spanish redefine \% como comando robusto, lo que produce el error
+% "Improper alphabetic constant" en el entorno python de pythonhighlight.
+\addto\extrasspanish{\ifdefined\percentsign\let\%\percentsign\fi}
+\usepackage{url}
+\usepackage[colorlinks=true,urlcolor=blue,linkcolor=black]{hyperref}
+
+\begin{document}
+
+
+\begin{tabular}{ccl}
+\begin{tabular}{c}
+\psfig{file=puclogo.eps}
+\end{tabular}
+&\ \ \ & 
+\begin{tabular}{l}
+PONTIFICIA UNIVERSIDAD CATÓLICA DE CHILE\\
+ESCUELA DE INGENIERÍA\\
+DEPARTAMENTO DE CIENCIA DE LA COMPUTACIÓN
+\end{tabular}
+\end{tabular}
+
+\vspace{1cm}
+
+\begin{center}
+  {
+\bf Tópicos Avanzados en Teoría de la Computación - IIC3810\\
+\bf Tarea 2\\
+\bf Fecha de entrega: jueves 8 de octubre}
+\end{center}
+
+\vspace{5mm}
+
+\section*{Preguntas}
+
+\begin{enumerate}
+\item {\bf [2 puntos]} En esta pregunta usted deberá implementar en Python una librería que
+  permita utilizar el algoritmo de Deutsch-Jozsa. Esta librería debe estar en el archivo
+  \texttt{deutsch\_jozsa.py}.
+
+  Recuerde que un oráculo para una función $f : \{0,1\}^n \to \{0,1\}$ es un circuito cuántico que
+  implementa una transformación unitaria $U_f$ tal que para todo $x \in \{0,1\}^n$ y todo
+  $y \in \{0,1\}$:
+  \begin{eqnarray*}
+    U_f \ket{y\, 0^r\, x} & = & \ket{(y \oplus f(x))\, 0^r\, x},
+  \end{eqnarray*}
+  donde $r \geq 0$ es el número de qubits auxiliares utilizados por el oráculo. Vale decir, un
+  oráculo para $f$ tiene $n + r + 1$ qubits, y debe dejar los qubits auxiliares en el estado
+  $\ket{0^r}$. Siguiendo la convención de Qiskit, el qubit 0 corresponde al símbolo de más a la
+  derecha en $\ket{y\, 0^r\, x}$. Así, $x$ se almacena en los qubits $0, \ldots, n-1$, los qubits
+  auxiliares son los qubits $n, \ldots, n+r-1$, y el valor $y$ se almacena en el qubit $n+r$. Además, para
+  cada $i \in \{0, \ldots, n-1\}$ denotamos por $x_i$ el símbolo de $x$ que se almacena en el qubit
+  $i$, vale decir, $x = x_{n-1} \cdots x_1 x_0$.
+
+  En esta tarea, un oráculo es un objeto de la clase \texttt{QuantumCircuit} de Qiskit que
+  implementa $U_f$. Note que a partir de un oráculo no es posible deducir el valor de $n$: el
+  atributo \texttt{num\_qubits} de \texttt{QuantumCircuit} entrega el valor $n + r + 1$, pero no
+  indica cuál es el valor de $r$. Por esta razón, las funciones que usted debe implementar reciben
+  como parámetros un oráculo y el número $n$ de bits de entrada de $f$. En particular, su librería
+  debe implementar las siguientes funciones:
+  \begin{itemize}
+  \item Una función \texttt{circuito\_deutsch\_jozsa} con el siguiente encabezado:
+\begin{python}
+def circuito_deutsch_jozsa(oraculo: QuantumCircuit, n: int) -> QuantumCircuit:
+\end{python}
+    Esta función recibe como parámetros un oráculo \texttt{oraculo} para una función
+    $f : \{0,1\}^n \to \{0,1\}$ y el número \texttt{n} de bits de entrada de $f$, y retorna un
+    objeto de la clase \texttt{QuantumCircuit} que implementa el algoritmo de Deutsch-Jozsa para
+    \texttt{oraculo}. Si \texttt{oraculo} tiene $n + r + 1$ qubits, entonces este circuito también
+    debe tener $n + r + 1$ qubits, y debe tener $n$ bits clásicos. Considerando la convención
+    anterior, el circuito comienza en el estado $\ket{0\, 0^r\, 0^n}$, y al final mide los qubits $0, \ldots, n-1$ que corresponden a $x$,
+    almacenando el resultado de medir el qubit $i$ en el bit clásico $i$.
+  \item Una función \texttt{is\_constant} con el siguiente encabezado:
+\begin{python}
+def is_constant(oraculo: QuantumCircuit, n: int, num_iter: int = 1000) -> bool:
+\end{python}
+    Esta función recibe como parámetros un oráculo \texttt{oraculo} para una función
+    $f : \{0,1\}^n \to \{0,1\}$ que es constante o balanceada, el número \texttt{n} de bits de
+    entrada de $f$, y el número \texttt{num\_iter} de veces que se debe ejecutar el circuito. Esta
+    función utiliza un simulador para ejecutar \texttt{num\_iter} veces el circuito
+    \texttt{circuito\_deutsch\_jozsa(oraculo, n)}, y retorna \texttt{True} si $f$ es constante y \texttt{False} si $f$ es
+    balanceada. Para la simulación debe utilizar la clase \texttt{StatevectorSampler} de
+    \texttt{qiskit.primitives}. Si no se indica un valor para \texttt{num\_iter}, entonces se debe
+    considerar $\texttt{num\_iter} = 1000$.
+  \end{itemize}
+
+\item {\bf [2 puntos]} En esta pregunta usted deberá utilizar la librería de la pregunta 1 para
+  determinar si dos funciones son constantes o balanceadas. Dado un string binario $u$, denotamos
+  por $|u|_1$ el número de símbolos 1 en $u$. Por ejemplo, si $u = 0110100$, entonces $|u|_1 = 3$.
+  Considere las funciones $f_1, f_2 : \{0,1\}^7 \to \{0,1\}$ definidas de la siguiente forma para
+  cada $x \in \{0,1\}^7$:
+  \begin{eqnarray*}
+    f_1(x) & = & \begin{cases}
+      1 & \text{si } |x|_1 \leq 3\\
+      0 & \text{en caso contrario}
+    \end{cases}\\
+    f_2(x) & = & 0
+  \end{eqnarray*}
+  Observe que $f_1$ es balanceada y que $f_2$ es constante.
+  Usted debe escribir un programa \texttt{pregunta2.py} que realice lo siguiente:
+  \begin{itemize}
+  \item Construya oráculos para $f_1$ y $f_2$ de acuerdo a la convención descrita en la
+    pregunta 1, y los almacene en las variables \texttt{oraculo\_f1} y \texttt{oraculo\_f2},
+    respectivamente. Para construir estos oráculos puede utilizar qubits auxiliares. Tenga en
+    cuenta que estos mismos oráculos se utilizarán en la pregunta 3 en un computador cuántico real,
+    por lo que conviene utilizar pocos qubits auxiliares y pocas compuertas.
+  \item Utilice la función \texttt{is\_constant} con $\texttt{num\_iter} = 1000$ para determinar si
+    cada una de estas funciones es constante o balanceada, e imprima el resultado.
+  \end{itemize}
+  El resultado de ejecutar \texttt{python pregunta2.py} debe ser exactamente el siguiente:
+{\small
+\begin{verbatim}
+f1 es balanceada
+f2 es constante
+\end{verbatim}
+}
+  Las variables \texttt{oraculo\_f1} y \texttt{oraculo\_f2} se deben definir en el nivel superior
+  del archivo \texttt{pregunta2.py}, y el código que utiliza \texttt{is\_constant} e
+  imprime el resultado debe estar dentro de un bloque de la siguiente forma:
+\begin{python}
+if __name__ == "__main__":
+    ...
+\end{python}
+  De esta forma, los oráculos pueden ser importados desde otro archivo. En la corrección se
+  verificará que \texttt{oraculo\_f1} y \texttt{oraculo\_f2} son oráculos para $f_1$ y $f_2$,
+  respectivamente, considerando cada una de las $2^7$ entradas posibles.
+
+\item {\bf [2 punto]} En las preguntas anteriores usted ejecutó el algoritmo de Deutsch-Jozsa en un
+  simulador. En esta pregunta usted deberá ejecutarlo en un computador cuántico de IBM, utilizando
+  su cuenta de IBM Quantum. Parte de esta pregunta consiste en que usted averigüe cómo hacer esto,
+  para lo cual le recomendamos consultar la documentación de IBM Quantum que se encuentra en el
+  sitio \url{https://quantum.cloud.ibm.com/docs}.
+
+  Los computadores cuánticos actuales tienen ruido, vale decir, las compuertas y las mediciones no
+  se realizan de manera perfecta. Por esta razón, el resultado de ejecutar el algoritmo de
+  Deutsch-Jozsa en un computador cuántico real puede ser distinto al resultado que se obtiene en un
+  simulador, y el criterio utilizado en la función \texttt{is\_constant} para decidir si una función
+  es constante o balanceada podría no ser adecuado. En esta pregunta usted deberá utilizar un
+  criterio que tome en cuenta este ruido.
+
+  Además, antes de ser ejecutado en un computador cuántico de IBM, un circuito debe ser
+  transpilado, vale decir, debe ser reescrito utilizando las compuertas y las conexiones entre
+  qubits que tiene dicho computador. En particular, cada compuerta que actúa sobre más de dos
+  qubits se reemplaza por varias compuertas de uno y dos qubits, y pueden ser necesarias compuertas
+  adicionales para respetar las conexiones disponibles entre los qubits. Por esta razón, el
+  circuito transpilado puede ser mucho más grande que el circuito original.
+
+  Cada compuerta puede introducir un error, y las compuertas de dos qubits suelen ser especialmente
+  ruidosas. Además, mientras mayor sea la profundidad de un circuito, mayor es la oportunidad de que
+  el ruido afecte su ejecución. Por esta razón, es conveniente que los oráculos que construyó en la
+  pregunta 2 sean lo más pequeños posible. Como referencia, es posible construir un oráculo para
+  $f_1$ cuyo circuito transpilado tiene alrededor de 500 compuertas de dos qubits en un computador
+  cuántico de la familia Heron de IBM.
+
+  El límite de tiempo de uso disponible en IBM Quantum controla cuánto tiempo total de QPU puede
+  utilizar. Este límite no indica si un circuito es suficientemente pequeño para obtener buenos
+  resultados: un circuito puede estar dentro del límite de tiempo y aun así acumular demasiado
+  ruido. Para esta pregunta, usted debe fijarse principalmente en el circuito después de la
+  transpilación y en los resultados obtenidos al ejecutarlo.
+
+  Usted debe escribir un programa \texttt{pregunta3.py} que ejecute en un computador cuántico de IBM
+  el circuito \texttt{circuito\_deutsch\_jozsa(oraculo, 7)} para \texttt{oraculo\_f1} y para
+  \texttt{oraculo\_f2}, con 1000 ejecuciones en cada caso, y que a partir de los resultados
+  obtenidos, y utilizando un criterio que tome en cuenta el ruido, determine si cada una de las
+  funciones $f_1$ y $f_2$ es constante o balanceada. Antes de ejecutar cada circuito, debe
+  transpilarlo para el computador cuántico que eligió. Los oráculos se deben importar desde
+  \texttt{pregunta2.py}, y la función \texttt{circuito\_deutsch\_jozsa} desde
+  \texttt{deutsch\_jozsa.py}.
+
+  Además, en el documento \texttt{pregunta3.pdf} usted debe mostrar que efectivamente ejecutó su
+  programa en un computador cuántico de IBM, y debe explicar el criterio que utilizó. En
+  particular, este documento debe incluir:
+  \begin{itemize}
+  \item El nombre del computador cuántico que utilizó y la fecha en que ejecutó su programa.
+  \item El identificador (job ID) de cada uno de los trabajos que envió a IBM Quantum para obtener
+    los resultados reportados.
+  \item Un histograma con los resultados obtenidos para cada una de las funciones $f_1$ y $f_2$,
+    indicando explícitamente el número de veces que se obtuvo el string $0^7$.
+  \item El número de compuertas de dos qubits y la profundidad del circuito transpilado para $f_1$.
+  \item Una explicación del criterio que utilizó en \texttt{pregunta3.py} para decidir si una
+    función es constante o balanceada. En esta explicación debe indicar si este criterio es
+    distinto del utilizado en la función \texttt{is\_constant} y por qué, y debe justificar, en
+    base a los resultados que obtuvo, por qué su criterio entrega la respuesta correcta para $f_1$
+    y $f_2$.
+  \item El resultado de ejecutar \texttt{pregunta3.py}, el cual debe indicar que $f_1$ es
+    balanceada y que $f_2$ es constante.
+  \end{itemize}
+
+  En la corrección no se ejecutará \texttt{pregunta3.py} en un computador cuántico, por lo que la
+  evaluación de esta pregunta se basará en su código y en el documento \texttt{pregunta3.pdf}.
+  Tenga en cuenta que el tiempo de uso de los computadores cuánticos de IBM es limitado. Además,
+  los trabajos enviados a IBM Quantum esperan en una cola antes de ser ejecutados. Por esta razón,
+  le recomendamos verificar que su programa funciona correctamente utilizando un simulador antes
+  de ejecutarlo en un computador cuántico, y no dejar esta pregunta para el final.
+
+\end{enumerate}
+
+\end{document}
