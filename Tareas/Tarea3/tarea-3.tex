@@ -1,0 +1,298 @@
+\documentclass[10pt]{article}
+\usepackage{logo}
+\usepackage{fullpage}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{epsfig}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{multicol}
+\usepackage{color}
+
+\newcommand{\cyan}[1]{\textCyan #1\textBlack}
+\newcommand{\red}[1]{\textRed #1\textBlack}
+\newcommand{\green}[1]{\textGreen #1\textBlack}
+\newcommand{\blue}[1]{\textBlue #1\textBlack}
+\newcommand{\black}[1]{\textBlack #1\textBlack}
+\newcommand{\magenta}[1]{\textMagenta #1\textBlack}
+\newcommand{\brown}[1]{\textBrown #1\textBlack}
+\newcommand{\vs}[1]{\vspace{#1mm}}
+\newcommand{\ignore}{}
+\newcommand{\ri}[1]{\text{\red{#1}}}
+\newcommand{\hs}{\hat\sigma}
+\newcommand{\modelos}{{\it modelos}}
+\newcommand{\B}{{\tt B}}
+\newcommand{\nspace}{\text{NSPACE}}
+\newcommand{\logspace}{\text{LOGSPACE}}
+\newcommand{\nlogspace}{\text{NLOGSPACE}}
+\newcommand{\npspace}{\text{NPSPACE}}
+\newcommand{\pspace}{\text{PSPACE}}
+\newcommand{\ph}{\text{PH}}
+\newcommand{\expspace}{\text{EXPSPACE}}
+\newcommand{\nexpspace}{\text{NEXPSPACE}}
+\newcommand{\dspace}{\text{DSPACE}}
+\newcommand{\espacio}{{\it espacio}}
+\newcommand{\tiempo}{{\it tiempo}}
+\newcommand{\ptime}{\text{PTIME}}
+\newcommand{\dtime}{\text{DTIME}}
+\newcommand{\exptime}{\text{EXPTIME}}
+\newcommand{\nexptime}{\text{NEXPTIME}}
+\newcommand{\CC}{{\cal C}}
+\newcommand{\sat}{\text{SAT}}
+\newcommand{\tcnfu}{\text{3-CNF-SAT-UNSAT}}
+\newcommand{\usat}{\text{unique-SAT}}
+\newcommand{\np}{\text{NP}}
+\newcommand{\ntime}{\text{NTIME}}
+\newcommand{\cnf}{\text{CNF-SAT}}
+\newcommand{\tcnf}{\text{3-CNF-SAT}}
+\newcommand{\dcnf}{\text{2-CNF-SAT}}
+\newcommand{\horn}{\text{HORN-SAT}}
+\newcommand{\nhorn}{\text{NEG-HORN-SAT}}
+\newcommand{\co}{\text{co-}}
+\newcommand{\rp}{\leq^\text{\it p}_\text{\it m}}
+\newcommand{\tur}{\leq^\text{\it p}_\text{\it T}}
+\newcommand{\reach}{\text{CAMINO}}
+\newcommand{\pe}{\text{PROG-ENT}}
+\newcommand{\pl}{\text{PROG-LIN}}
+\newcommand{\cor}{\text{CONT-REG}}
+\newcommand{\er}{\text{EQUIV-REG}}
+\newcommand{\qbf}{\text{QBF}}
+\newcommand{\shp}{\text{Succinct-HP}}
+\newcommand{\hp}{\text{HP}}
+\newcommand{\cdp}{\text{DP}}
+\newcommand{\clique}{\text{CLIQUE}}
+\newcommand{\eclique}{\text{exact-CLIQUE}}
+\newcommand{\costo}{\text{costo}}
+\newcommand{\tsp}{\text{TSP}}
+\newcommand{\tspu}{\text{unique-TSP}}
+\newcommand{\no}{\text{NO}}
+\newcommand{\yes}{\text{YES}}
+\newcommand{\br}{\text{CERTAIN-ANSWERS}}
+\newcommand{\dpc}{\text{DP}}
+
+\newcommand{\CROM}{\text{CROM}}
+\newcommand{\EVAL}{\text{EVAL}}
+\newcommand{\EQUIV}{\text{EQUIV}}
+
+\newcommand{\re}{\text{RE}}
+\newcommand{\dec}{\text{R}}
+\newcommand{\resp}[1]{{\text{\bf [Responsable: #1]}}}
+\usepackage{braket}
+\usepackage{pythonhighlight}
+% pythonhighlight activa \UseRawInputEncoding; restauramos UTF-8 para el resto del documento.
+\inputencoding{utf8}
+% babel-spanish redefine \% como comando robusto, lo que produce el error
+% "Improper alphabetic constant" en el entorno python de pythonhighlight.
+\addto\extrasspanish{\ifdefined\percentsign\let\%\percentsign\fi}
+\usepackage{url}
+\usepackage[colorlinks=true,urlcolor=blue,linkcolor=black]{hyperref}
+
+\begin{document}
+
+
+\begin{tabular}{ccl}
+\begin{tabular}{c}
+\psfig{file=puclogo.eps}
+\end{tabular}
+&\ \ \ &
+\begin{tabular}{l}
+PONTIFICIA UNIVERSIDAD CATÓLICA DE CHILE\\
+ESCUELA DE INGENIERÍA\\
+DEPARTAMENTO DE CIENCIA DE LA COMPUTACIÓN
+\end{tabular}
+\end{tabular}
+
+\vspace{1cm}
+
+\begin{center}
+  {
+\bf Tópicos Avanzados en Teoría de la Computación - IIC3810\\
+\bf Tarea 3\\
+\bf Fecha de entrega: jueves 19 de noviembre}
+\end{center}
+
+\vspace{5mm}
+
+\section*{Preguntas}
+
+\begin{enumerate}
+\item \textbf{[2 puntos]} En esta pregunta usted deberá implementar en Python una librería
+  que permita utilizar el algoritmo de estimación de fase, o QPE. Esta librería debe estar
+  en el archivo \texttt{qpe.py}, y se utilizará tanto en un simulador como en un computador
+  cuántico de IBM. Las funciones de esta librería reciben una matriz unitaria
+  $U\in\mathbb C^{2^n\times2^n}$, un vector unitario $\ket{w}\in\mathbb C^{2^n}$
+  que es vector propio de $U$, y un entero $t\geq1$ que indica el número de qubits que se
+  utilizarán para estimar la fase. Los parámetros \texttt{U} y \texttt{w} deben ser
+  arreglos de números complejos de NumPy, de tipo \texttt{np.complex128}. Puede suponer que $n\geq1$ y que las entradas
+  satisfacen las condiciones anteriores. Su librería debe implementar las siguientes funciones:
+
+  \begin{itemize}
+  \item Una función \texttt{circuito\_qpe} con el siguiente encabezado:
+\begin{python}
+def circuito_qpe(U: np.ndarray, w: np.ndarray, t: int) -> QuantumCircuit:
+\end{python}
+    Esta función retorna un objeto de la clase \texttt{QuantumCircuit} que implementa
+    QPE para la entrada indicada, con $n+t$ qubits y $t$ bits clásicos. El circuito
+    comienza con todos los qubits en cero y debe incluir la preparación del estado
+    $\ket{0^t}\otimes\ket{w}$. Al final debe medir únicamente el registro de fase,
+    almacenando el resultado en los $t$ bits clásicos, de modo que el circuito pueda
+    ejecutarse tanto en el simulador como en el computador cuántico.
+
+  \item Una función \texttt{ejecutar\_qpe} con el siguiente encabezado:
+\begin{python}
+def ejecutar_qpe(U: np.ndarray, w: np.ndarray, t: int,
+                                num_iter: int = 10000) -> dict[int, int]:
+\end{python}
+    Esta función ejecuta \texttt{num\_iter} veces el circuito \texttt{circuito\_qpe(U, w, t)}
+    en un simulador ideal, utilizando \texttt{StatevectorSampler} de \texttt{qiskit.primitives}, y retorna
+    un diccionario cuyas claves son los enteros $\ell\in\{0,\ldots,2^t-1\}$ observados
+    y cuyos valores indican el número de veces que se obtuvo cada resultado. La estimación
+    asociada a la clave $\ell$ es $\ell/2^t$. Puede suponer que \texttt{num\_iter} es un
+    entero positivo, cuyo valor por defecto es 10000, y la suma de los valores del
+    diccionario debe ser igual a este parámetro.
+  \end{itemize}
+
+\item \textbf{[2 puntos]} En esta pregunta usted deberá utilizar su librería para estimar
+  una fase irracional en un simulador de Qiskit y estudiar experimentalmente la garantía
+  de error de QPE. Para esto, considere la matriz $U\in\mathbb C^{8\times8}$ que se
+  define a continuación a partir de los números complejos
+  \begin{align*}
+    a&=\frac{-4-\sqrt{2+\sqrt2}+2\cos\!\left(\frac{\pi}{\sqrt2}\right)
+      +i\left[\sqrt{2-\sqrt2}+2\sin\!\left(\frac{\pi}{\sqrt2}\right)\right]}{16},\\[3pt]
+    b&=\frac{-\sqrt{2+\sqrt2}-2\cos\!\left(\frac{\pi}{\sqrt2}\right)
+      +i\left[\sqrt{2-\sqrt2}-2\sin\!\left(\frac{\pi}{\sqrt2}\right)\right]}{16},\\[3pt]
+    d&=\frac{12-\sqrt{2+\sqrt2}+2\cos\!\left(\frac{\pi}{\sqrt2}\right)
+      +i\left[\sqrt{2-\sqrt2}+2\sin\!\left(\frac{\pi}{\sqrt2}\right)\right]}{16}.
+  \end{align*}
+  La matriz $U$ y el vector $\ket{w}$ que utilizará en esta pregunta son
+  \[
+  \begingroup
+  \setlength{\arraycolsep}{4pt}
+  \renewcommand{\arraystretch}{0.95}
+  U=\begin{pmatrix}
+    d&b&a&b&a&b&a&b\\
+    b&d&b&a&b&a&b&a\\
+    a&b&d&b&a&b&a&b\\
+    b&a&b&d&b&a&b&a\\
+    a&b&a&b&d&b&a&b\\
+    b&a&b&a&b&d&b&a\\
+    a&b&a&b&a&b&d&b\\
+    b&a&b&a&b&a&b&d
+  \end{pmatrix},
+  \qquad
+  \ket{w}=\frac1{\sqrt8}
+  \begin{pmatrix}
+    1\\-1\\1\\-1\\1\\-1\\1\\-1
+  \end{pmatrix}.
+  \endgroup
+  \]
+La matriz $U$ es unitaria y el vector $\ket{w}$ satisface
+  $U\ket{w}=e^{2\pi i\theta}\ket{w}$, donde $\theta=\sqrt2/4$.
+  Usted debe escribir un programa \texttt{pregunta2.py} que construya \texttt{U} y
+  \texttt{w} evaluando estas expresiones con \texttt{np.sqrt}, \texttt{np.cos},
+  \texttt{np.sin}, \texttt{np.pi} y la unidad imaginaria \texttt{1j}. Al crear los
+  arreglos debe indicar \texttt{dtype=np.complex128}; sus entradas serán aproximaciones
+  numéricas de las expresiones dadas. Las variables \texttt{U} y \texttt{w}
+  se deben definir en el nivel superior del archivo, y la ejecución del experimento
+  debe estar dentro de un bloque
+  \mbox{\texttt{if \_\_name\_\_ == "\_\_main\_\_":}}. De esta forma, la matriz y el
+  vector podrán ser importados desde otro archivo sin ejecutar el experimento, lo que
+  será necesario en la pregunta 3.
+
+  Su programa \texttt{pregunta2.py} debe importar \texttt{ejecutar\_qpe} desde
+  \texttt{qpe.py} y realizar el experimento para cada una de las cuatro
+  combinaciones de $m\in\{3,7\}$ y
+  $\varepsilon\in\{1/8,1/32\}$. Para cada combinación, debe determinar $t$
+  a partir de la cota de error de QPE, para una tolerancia $2^{-m}$ y una probabilidad
+  de error a lo más $\varepsilon$, y calcular $Q=2^t$. Luego debe utilizar
+  \texttt{ejecutar\_qpe} con \texttt{U}, \texttt{w}, el valor de $t$ obtenido y
+  $\texttt{num\_iter}=10000$.
+  A partir de este diccionario, el programa debe calcular la fracción $p_{\mathrm{sim}}$ de los resultados $\ell$ cuya estimación $\ell/Q$ está a distancia a lo más $2^{-m}$ de $\theta$. Además,
+  debe entregar una única estimación $\ell^\star/Q$ de la fase, para lo cual usted debe decidir qué valor $\ell$ utilizar entre todos los que aparecieron al menos una vez.
+
+  Para esta pregunta, debe entregar únicamente el programa \texttt{pregunta2.py}.
+  Al ejecutarse, el programa debe imprimir exactamente cuatro líneas, en el orden y
+  con el formato que se muestra a continuación, reemplazando los puntos suspensivos
+  por los resultados calculados. En cada línea, la frecuencia de éxito corresponde
+  a $p_{\mathrm{sim}}$ y debe escribirse con cuatro cifras decimales; la fase estimada
+  debe escribirse como la fracción $\ell^\star/Q$, con numerador y denominador enteros.
+
+\begin{verbatim}
+Para m = 3 y epsilon = 1/8: frecuencia de éxito = ...; fase estimada = .../...
+Para m = 3 y epsilon = 1/32: frecuencia de éxito = ...; fase estimada = .../...
+Para m = 7 y epsilon = 1/8: frecuencia de éxito = ...; fase estimada = .../...
+Para m = 7 y epsilon = 1/32: frecuencia de éxito = ...; fase estimada = .../...
+\end{verbatim}
+
+\item \textbf{[2 puntos]} En la Tarea 2 usted ejecutó el algoritmo de Deutsch-Jozsa en
+  un computador cuántico de IBM. En esta pregunta deberá ejecutar QPE en uno de estos
+  computadores. Para esto, debe utilizar la misma matriz $U$, el mismo
+  vector $\ket{w}$ y las mismas cuatro combinaciones de $m$ y $\varepsilon$ de la
+  pregunta anterior.
+En particular, usted debe escribir un programa \texttt{pregunta3.py} que importe
+  \texttt{U} y \texttt{w} desde \texttt{pregunta2.py}, y la función
+  \texttt{circuito\_qpe} desde \texttt{qpe.py}.
+  Para cada combinación de $m$ y $\varepsilon$, el programa debe utilizar el valor
+  de $t$ obtenido en la pregunta 2 para construir \texttt{circuito\_qpe(U, w, t)},
+  transpilarlo y ejecutarlo con 1000 shots. Las cuatro combinaciones producen cuatro
+  circuitos distintos.
+
+  Un trabajo (\emph{job}) es una solicitud que se envía a IBM para ejecutar uno o más
+  circuitos. En esta pregunta, usted debe enviar un trabajo separado por circuito,
+  para poder conocer el tiempo de uso de QPU correspondiente a cada uno. Para esto,
+  puede utilizar \texttt{sampler.run([circuito], shots=1000)}, donde \texttt{circuito}
+  es uno de los circuitos transpilados. Esta llamada solicita 1000 ejecuciones de ese
+  circuito, por lo que debe enviar cuatro trabajos y realizará 4000 ejecuciones en total.
+  Para cada circuito, guarde un diccionario en el que la clave $\ell$ sea un resultado
+  observado y el valor $c_\ell$ sea el número de veces que apareció en esas 1000
+  ejecuciones; por lo tanto, la suma de los valores del diccionario debe ser 1000.
+  Este diccionario contiene los conteos que utilizará para analizar ese circuito.
+
+  Para cada combinación de $m$ y $\varepsilon$, a partir del diccionario correspondiente,
+  el programa debe calcular la fracción $p_{\mathrm{IBM}}$ de los resultados $\ell$
+  cuya estimación $\ell/Q$ está a distancia a lo más $2^{-m}$ de $\theta$. Además,
+  debe entregar una única estimación $\ell^\star/Q$ de la fase, para lo cual usted
+  debe decidir qué valor $\ell$ utilizar entre todos los que aparecieron al menos una vez.
+
+  Al ejecutarse, el programa debe imprimir exactamente cuatro líneas, en el orden y
+  con el formato que se muestra a continuación, reemplazando los puntos suspensivos
+  por los resultados calculados. En cada línea, la frecuencia de éxito corresponde
+  a $p_{\mathrm{IBM}}$ y debe escribirse con cuatro cifras decimales; la fase estimada
+  debe escribirse como la fracción $\ell^\star/Q$, con numerador y denominador enteros.
+
+\begin{verbatim}
+Para m = 3 y epsilon = 1/8: frecuencia de éxito = ...; fase estimada = .../...
+Para m = 3 y epsilon = 1/32: frecuencia de éxito = ...; fase estimada = .../...
+Para m = 7 y epsilon = 1/8: frecuencia de éxito = ...; fase estimada = .../...
+Para m = 7 y epsilon = 1/32: frecuencia de éxito = ...; fase estimada = .../...
+\end{verbatim}
+
+  Para esta pregunta, debe entregar el programa \texttt{pregunta3.py} y el archivo
+  \texttt{resultados3.pdf}. Este archivo debe contener las cuatro líneas de salida
+  del programa, con las frecuencias de éxito y las fases estimadas obtenidas al
+  ejecutar los circuitos en el computador cuántico de IBM. Además, debe indicar el
+  tiempo de uso de QPU reportado por IBM para cada uno de los cuatro trabajos, en
+  segundos, identificando la combinación de $m$ y $\varepsilon$ correspondiente. Puede consultar este tiempo con \texttt{job.usage()}
+  una vez que el trabajo haya finalizado. Este valor corresponde al uso de QPU del
+  trabajo completo, incluidas las 1000 ejecuciones del circuito, y excluyendo la espera en la cola de trabajo.
+\end{enumerate}
+
+\section*{Nota sobre la entrega y corrección}
+
+La entrega de esta tarea debe incluir los tres programas \texttt{qpe.py},
+\texttt{pregunta2.py} y \texttt{pregunta3.py}, junto con el documento
+\texttt{resultados3.pdf}, que debe contener la salida de \texttt{pregunta3.py} y
+los tiempos de uso de QPU solicitados en la pregunta 3.
+La entrega de la pregunta 2 consiste únicamente en
+el programa \texttt{pregunta2.py}. Verifique los circuitos en un
+simulador antes de enviarlos a IBM y conserve los conteos obtenidos para consultarlos
+sin repetir las ejecuciones.
+
+En la corrección se revisará su código y la salida incluida en \texttt{resultados3.pdf};
+\texttt{pregunta3.py} no se ejecutará en un computador cuántico. Debe reportar todos
+los resultados obtenidos, incluso si alguna frecuencia de éxito es menor que
+$1-\varepsilon$. No se exigirá alcanzar esta
+cota en el hardware; la evaluación considerará la implementación del experimento
+y los resultados reportados.
+
+\end{document}
